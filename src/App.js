@@ -1,14 +1,12 @@
 import "./reset.css";
-import LoginComponent from "./components/LoginPage/LoginComponent";
-import SignupComponent from "./components/SignupPage/SignupComponent";
+import TodoApp from "./components/TodoApp";
 
-function App() {
-  return (
-    <>
-      <LoginComponent />
-      <SignupComponent />
-    </>
-  );
-}
+const App = () => {
+    return (
+        <>
+            <TodoApp />
+        </>
+    );
+};
 
 export default App;
