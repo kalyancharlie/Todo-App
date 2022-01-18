@@ -1,8 +1,13 @@
+import "./reset.css";
+import LoginComponent from "./components/LoginPage/LoginComponent";
+import SignupComponent from "./components/SignupPage/SignupComponent";
 
 function App() {
-  return (<>
-    <h3>Todo Application</h3>
-  </>
+  return (
+    <>
+      <LoginComponent />
+      <SignupComponent />
+    </>
   );
 }
 
