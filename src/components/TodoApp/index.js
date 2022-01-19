@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import LoginComponent from "../Auth/LoginComponent";
-import Navbar from "./Navbar";
-import TodosList from "./TodosList";
-import AddTodo from "./AddTodo";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import routes from "./routes";
 
 // All components and routes will go here
 
@@ -21,7 +19,17 @@ const initialState = [
 
 const TodoApp = () => {
   const [todosList, setTodosList] = useState(initialState);
-  return <LoginComponent />;
+  return (
+    <TodoContext.Provider value={{todosList, setTodosList}}>
+      <Router>
+        <Routes>
+          {routes.map((route) => {
+            return <Route {...route} />;
+          })}
+        </Routes>
+      </Router>
+    </TodoContext.Provider>
+  );
 };
 
 export default TodoApp;
