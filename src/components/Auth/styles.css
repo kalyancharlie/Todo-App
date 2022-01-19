@@ -1,0 +1,83 @@
+@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap");
+:root {
+  --near-black-color: #15184d;
+  --light-color: #90919e;
+  --blue-color: #0275d8;
+}
+* {
+  margin: 0px;
+  box-sizing: border-box;
+  padding: 0px;
+}
+.flex-all-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+.w-100 {
+  width: 100vw;
+}
+.h-100 {
+  height: 100vh;
+}
+.login-image {
+  display: none;
+}
+.page-heading {
+  font-size: 35px;
+  font-weight: bolder;
+  font-family: "Bree serif";
+  margin-bottom: 28px;
+  text-align: center;
+}
+@media screen and (min-width: 768px) {
+  .login-image {
+    display: block;
+    height: 80%;
+    margin-right: 40px;
+  }
+  .form-div {
+    margin-right: 30px;
+  }
+  .page-heading {
+    text-align: left;
+  }
+}
+.input-div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1px solid var(--near-black-color);
+  padding-bottom: 6px;
+  margin-bottom: 24px;
+}
+.input-icon {
+  margin-right: 15px;
+}
+.text-box {
+  border: 0px;
+  outline: none;
+  font-size: 15px;
+  font-family: "Bree serif";
+  color: black;
+  font-weight: 100;
+  width: 250px;
+}
+.blue-button {
+  background-color: var(--blue-color);
+  color: white;
+  font-family: "Bree serif";
+  border-radius: 8px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  border: 0px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+.last-line {
+  font-family: "Bree serif";
+}

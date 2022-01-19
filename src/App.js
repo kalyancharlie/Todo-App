@@ -2,11 +2,11 @@ import "./reset.css";
 import TodoApp from "./components/TodoApp";
 
 const App = () => {
-    return (
-        <>
-            <TodoApp />
-        </>
-    );
+  return (
+    <>
+      <TodoApp />
+    </>
+  );
 };
 
 export default App;
