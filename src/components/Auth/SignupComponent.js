@@ -1,11 +1,12 @@
 import "./styles.css";
+import SignUpImage from '../../assets/signup_image.svg'
 
 const SignupComponent = () => {
   return (
-    <div className="flex-all-center w-100 h-100">
+    <div className="flex-all-center w-100 h-100 bg-cream">
       <img
-        src="https://res.cloudinary.com/ypotti/image/upload/v1642570959/login_os7rfv.jpg"
-        alt="Login"
+        src={SignUpImage}
+        alt="Signup SVG"
         className="login-image signup-img"
       />
       <div className="form-div signup-form">
