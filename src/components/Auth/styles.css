@@ -4,14 +4,12 @@
   --near-black-color: #15184d;
   --light-color: #90919e;
   --blue-color: #0275d8;
-  --cream-color: #f9fbfe;
+  --cream-color: #f0f6ff;
 }
 
 .flex-all-center {
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 10px;
 }
 
 .bg-cream {

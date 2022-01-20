@@ -21,10 +21,19 @@ const TodosList = () => {
     setTodosList(newTodos);
   };
 
+  const renderEmptyBox = () => {
+    return (
+      <div className="no-tasks-box">
+        <p>Yay! you Left with No WorkLoad</p>
+      </div>
+    );
+  };
+
   return (
-    <div className="flex-direction-column">
+    <div className="flex-direction-column ">
       <p className="section-heading">TODAY'S TASKS</p>
       <ul className="todo-app-container flex-direction-column ul">
+        {todosList.length === 0 && renderEmptyBox()}
         {todosList.map((todo) => (
           <TodoItem
             {...todo}

@@ -9,10 +9,24 @@
 }
 .ul {
   list-style-type: none;
-  margin-bottom: 20px;
+  overflow-y: auto;
+  height: 60vh;
+}
+.outer-box {
+  overflow-x: hidden;
+}
+.delete-icon {
+  cursor: pointer;
 }
 .bg-cream {
   background-color: var(--cream-color);
+}
+.hide {
+  display: none;
+}
+.c-red {
+  color: red;
+  padding-bottom: 3px;
 }
 .min-height-100 {
   min-height: 100vh;
@@ -85,6 +99,7 @@
   margin-top: 14px;
   color: var(--near-black-color);
   cursor: pointer;
+  margin-bottom: 12px;
 }
 
 .input-ele-div {
@@ -111,14 +126,23 @@
 .add-todo-input-element {
   border: 0px;
   font-family: "Bree serif";
-  border-bottom: 1px solid var(--near-black-color);
   color: var(--near-black-color);
   font-size: 16px;
   outline: none;
   padding-left: 6px;
-  padding-bottom: 8px;
   margin-right: 10px;
   background-color: var(--cream-color);
+}
+.no-tasks-box {
+  background-color: var(--cream-color);
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  height: 100%;
+}
+.add-todo-box {
+  padding-bottom: 12px;
 }
 
 @media screen and (min-width: 768px) {

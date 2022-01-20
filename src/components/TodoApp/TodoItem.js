@@ -1,6 +1,5 @@
 const TodoItem = (props) => {
   const { id, todoText, isCompleted, removeTodo, updateTodoItem } = props;
-  const labelId = "label" + id.toString();
 
   const onDelete = () => {
     removeTodo(id);
@@ -22,9 +21,7 @@ const TodoItem = (props) => {
               className="check-box"
               onChange={updateTodoCompletion}
             />
-            <p className="todo-text strike-through" id={labelId}>
-              {todoText}
-            </p>
+            <p className="todo-text strike-through">{todoText}</p>
           </div>
         )}
         {!isCompleted && (
@@ -35,9 +32,7 @@ const TodoItem = (props) => {
               className="check-box"
               onChange={updateTodoCompletion}
             />
-            <p className="todo-text" id={labelId}>
-              {todoText}
-            </p>
+            <p className="todo-text">{todoText}</p>
           </div>
         )}
       </label>
@@ -46,7 +41,7 @@ const TodoItem = (props) => {
         width="20"
         height="20"
         fill="currentColor"
-        className="bi bi-trash"
+        className="bi bi-trash delete-icon"
         viewBox="0 0 16 16"
         onClick={onDelete}
       >

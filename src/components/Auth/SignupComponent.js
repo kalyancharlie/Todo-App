@@ -1,16 +1,20 @@
 import "./styles.css";
-import SignUpImage from '../../assets/signup_image.svg'
+import SignUpImage from "../../assets/signup_image.svg";
 
 const SignupComponent = () => {
+  const runValidation = (event) => {
+    event.preventDefault();
+  };
+
   return (
-    <div className="flex-all-center w-100 h-100 bg-cream">
+    <div className="flex-all-center align-items-center w-100 h-100 bg-cream">
       <img
         src={SignUpImage}
         alt="Signup SVG"
         className="login-image signup-img"
       />
       <div className="form-div signup-form">
-        <form>
+        <form onSubmit={runValidation}>
           <h1 className="page-heading">Sign Up</h1>
           <div className="input-div">
             <svg
@@ -28,13 +32,13 @@ const SignupComponent = () => {
           <div className="input-div">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="25"
-              height="25"
+              width="21"
+              height="21"
               fill="currentColor"
-              className="bi bi-person-fill input-icon"
+              className="bi bi-envelope-open-fill input-icon"
               viewBox="0 0 16 16"
             >
-              <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+              <path d="M8.941.435a2 2 0 0 0-1.882 0l-6 3.2A2 2 0 0 0 0 5.4v.314l6.709 3.932L8 8.928l1.291.718L16 5.714V5.4a2 2 0 0 0-1.059-1.765l-6-3.2ZM16 6.873l-5.693 3.337L16 13.372v-6.5Zm-.059 7.611L8 10.072.059 14.484A2 2 0 0 0 2 16h12a2 2 0 0 0 1.941-1.516ZM0 13.373l5.693-3.163L0 6.873v6.5Z" />
             </svg>
             <input type="text" placeholder="Your Email" className="text-box" />
           </div>
@@ -68,7 +72,9 @@ const SignupComponent = () => {
               className="text-box"
             />
           </div>
-          <button className="blue-button">Register</button>
+          <button type="submit" className="blue-button">
+            Register
+          </button>
           <p className="last-line">
             Already a Member? <a href="/login">Login Here</a>
           </p>
