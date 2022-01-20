@@ -5,7 +5,7 @@ import AddTodo from "./AddTodo";
 
 const TodoApp = () => {
   return (
-    <div className="flex-all-center bg-cream w-100 min-height-100">
+    <div className="flex-all-center bg-cream w-100">
       <div className="flex-direction-column todo-app-container">
         <Navbar />
         <TodosList />

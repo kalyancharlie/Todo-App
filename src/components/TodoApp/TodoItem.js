@@ -1,35 +1,45 @@
 const TodoItem = (props) => {
-  const { id, todoText, createdAt, isCompleted, removeTodo } = props;
+  const { id, todoText, isCompleted, removeTodo, updateTodoItem } = props;
   const labelId = "label" + id.toString();
-
-  const onCheckBoxClicked = (event) => {
-    const clickedLabelId = "label" + event.target.id.toString();
-    document.getElementById(clickedLabelId).classList.toggle("strike-through");
-  };
 
   const onDelete = () => {
     removeTodo(id);
   };
 
   const updateTodoCompletion = () => {
-    // Update todo completion state
-    // Update addting todo state back to false so that add (+) icon appears again
-  }
+    updateTodoItem(id);
+  };
 
   return (
     <li className="flex-direction-row align-items-center li">
       <label htmlFor={id}>
-        <div className="flex-direction-row align-items-center ">
-          <input
-            id={id}
-            type="checkbox"
-            className="check-box"
-            onChange={onCheckBoxClicked}
-          />
-          <p className="todo-text" id={labelId}>
-            {todoText}
-          </p>
-        </div>
+        {isCompleted && (
+          <div className="flex-direction-row align-items-center ">
+            <input
+              id={id}
+              type="checkbox"
+              checked
+              className="check-box"
+              onChange={updateTodoCompletion}
+            />
+            <p className="todo-text strike-through" id={labelId}>
+              {todoText}
+            </p>
+          </div>
+        )}
+        {!isCompleted && (
+          <div className="flex-direction-row align-items-center ">
+            <input
+              id={id}
+              type="checkbox"
+              className="check-box"
+              onChange={updateTodoCompletion}
+            />
+            <p className="todo-text" id={labelId}>
+              {todoText}
+            </p>
+          </div>
+        )}
       </label>
       <svg
         xmlns="http://www.w3.org/2000/svg"

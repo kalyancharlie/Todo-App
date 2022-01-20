@@ -11,21 +11,21 @@ const initialState = [
   {
     id: 1,
     todoText: "Setup DB",
-    isCompleted: false,
+    isCompleted: true,
     createdAt: new Date(),
   },
   {
     id: 2,
     todoText: "Configure DB",
     isCompleted: false,
-    createdAt: new Date()
+    createdAt: new Date(),
   },
 ];
 
 const TodoApp = () => {
   const [todosList, setTodosList] = useState(initialState);
   return (
-    <TodoContext.Provider value={{todosList, setTodosList}}>
+    <TodoContext.Provider value={{ todosList, setTodosList }}>
       <Router>
         <Routes>
           {routes.map((route) => {
