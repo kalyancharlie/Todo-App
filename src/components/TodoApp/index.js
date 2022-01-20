@@ -10,9 +10,15 @@ export const TodoContext = React.createContext([]);
 const initialState = [
   {
     id: 1,
-    todoText: "Todo Text",
+    todoText: "Setup DB",
     isCompleted: false,
-    createdAt: new Date().getTime(),
+    createdAt: new Date(),
+  },
+  {
+    id: 2,
+    todoText: "Configure DB",
+    isCompleted: false,
+    createdAt: new Date()
   },
 ];
 

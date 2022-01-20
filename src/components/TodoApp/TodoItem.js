@@ -1,6 +1,5 @@
 const TodoItem = (props) => {
-  const { details, removeTodo } = props;
-  const { id, todoText } = details;
+  const { id, todoText, createdAt, isCompleted, removeTodo } = props;
   const labelId = "label" + id.toString();
 
   const onCheckBoxClicked = (event) => {
@@ -11,6 +10,11 @@ const TodoItem = (props) => {
   const onDelete = () => {
     removeTodo(id);
   };
+
+  const updateTodoCompletion = () => {
+    // Update todo completion state
+    // Update addting todo state back to false so that add (+) icon appears again
+  }
 
   return (
     <li className="flex-direction-row align-items-center li">

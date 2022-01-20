@@ -1,36 +1,25 @@
-import React from "react";
+import React, {useContext} from "react";
 import TodoItem from "./TodoItem";
-
-let sampleData = [
-  {
-    id: 1,
-    todoText: "Setup DB",
-    createdAt: new Date().getTime(),
-  },
-  {
-    id: 2,
-    todoText: "Configure DB",
-    createdAt: new Date().getTime(),
-  },
-];
+import {TodoContext} from './index'
 
 const TodosList = () => {
+  const todoContext = useContext(TodoContext)
+  const {todosList, setTodosList} = todoContext
+  
   const removeTodo = (id) => {
-    const currentSampleData = sampleData.filter((each) => each.id !== id);
-    // Set State
-    sampleData = [...currentSampleData];
-    console.log(sampleData);
+    const newTodos = todosList.filter((todo) => todo.id !== id);
+    setTodosList(newTodos)
   };
 
   return (
     <div className="flex-direction-column">
       <p className="section-heading">TODAY'S TASKS</p>
       <ul className="todo-app-container flex-direction-column ul">
-        {sampleData.map((eachObj) => (
+        {todosList.map((todo) => (
           <TodoItem
-            details={eachObj}
+            {...todo}
             removeTodo={removeTodo}
-            key={eachObj.id}
+            key={todo.id}
           />
         ))}
       </ul>

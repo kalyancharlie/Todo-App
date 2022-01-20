@@ -1,6 +1,14 @@
-import React from "react";
+import React, {useContext} from "react";
+import {TodoContext} from './index'
 
 const AddTodo = () => {
+  const todoContext = useContext(TodoContext)
+  const {setTodosList} = todoContext
+
+  const addTodo = () => {
+    // Set new todo to todosList
+  }
+
   return (
     <div className="flex-direction-row justify-content-end todo-app-container">
       <svg
