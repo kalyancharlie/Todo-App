@@ -22,10 +22,17 @@ const initialState = [
   },
 ];
 
+const initialUserState = {
+  name: '',
+  isInProgress: true,
+  user_id: ''
+}
+
 const TodoApp = () => {
   const [todosList, setTodosList] = useState(initialState);
+  const [user, setUser] = useState(initialUserState)
   return (
-    <TodoContext.Provider value={{ todosList, setTodosList }}>
+    <TodoContext.Provider value={{ todosList, setTodosList, user, setUser }}>
       <Router>
         <Routes>
           {routes.map((route) => {
