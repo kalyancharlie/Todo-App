@@ -73,6 +73,10 @@
   margin-right: 15px;
 }
 
+.question-mark {
+  width: 30px;
+}
+
 .text-box {
   border: 0px;
   outline: none;

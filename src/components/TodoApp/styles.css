@@ -24,6 +24,10 @@
 .hide {
   display: none;
 }
+.mb-10 {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
 .c-red {
   color: red;
   padding-bottom: 3px;
