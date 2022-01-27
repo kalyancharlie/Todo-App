@@ -1,5 +1,5 @@
 import axios from "axios";
-import bcryptjs, { hash } from "bcryptjs";
+import bcryptjs from "bcryptjs";
 
 // Authenticate User for Login
 export const authenticateUser = async (email, password) => {
@@ -8,8 +8,6 @@ export const authenticateUser = async (email, password) => {
       email,
       password,
     };
-    // Route POST /users/login
-    // Sample Data - {status: Boolean, message: '', statusCode, user: {_id: }}
     const url = "http://localhost:8080/users/login";
     const options = {
       method: "POST",
@@ -21,7 +19,9 @@ export const authenticateUser = async (email, password) => {
     const response = await fetch(url, options);
     const data = await response.json();
     //data can be used
-  } catch (error) {}
+  } catch (error) {
+    console.log(`API ERROR: ${error}`)
+  }
 };
 
 // Register User
@@ -33,9 +33,6 @@ export const registerUser = async (name, email, password) => {
       email,
       password: hashedPassword,
     };
-    // Hash the password here
-    // Route POST /users/register
-    // Sample Data - { message: '', status: Boolean, name: '', user_id: '' get status code from axios}
     const url = "http://localhost:8080/users/register";
     const options = {
       method: "POST",
@@ -46,7 +43,9 @@ export const registerUser = async (name, email, password) => {
     };
     const response = await fetch(url, options);
     const data = await response.json();
-  } catch (error) {}
+  } catch (error) {
+    console.log(`API ERROR: ${error}`)
+  }
 };
 
 // Renew Token
@@ -56,8 +55,6 @@ export const renewToken = async (refreshToken) => {
     const userData = {
       refreshToken,
     };
-    // Route POST /users/refresh-token
-    // Sample Data - { accessToken: '', status: '', message: '' get status code from axios}
     const url = "http://localhost:8080/users/refresh-token";
     const options = {
       method: "POST",
@@ -68,7 +65,9 @@ export const renewToken = async (refreshToken) => {
     };
     const response = await fetch(url, options);
     const data = await response.json();
-  } catch (error) {}
+  } catch (error) {
+    console.log(`API ERROR: ${error}`)
+  }
 };
 
 // Logout User
@@ -77,8 +76,6 @@ export const logoutUser = async (refreshToken) => {
     const userData = {
       refreshToken,
     };
-    // Route DELETE /users/logout
-    // Sample Data - { message: '', get status code from axios}
     const url = "http://localhost:8080/users/logout";
     const options = {
       method: "DELETE",
@@ -89,7 +86,9 @@ export const logoutUser = async (refreshToken) => {
     };
     const response = await fetch(url, options);
     const data = await response.json();
-  } catch (error) {}
+  } catch (error) {
+    console.log(`API ERROR: ${error}`)
+  }
 };
 
 // Create Todo
@@ -100,8 +99,6 @@ export const createTodo = async (user_id, todoText, isCompleted) => {
       todoText,
       isCompleted,
     };
-    // Route DELETE /todos/delete
-    // Sample Data - { get status code from axios}
     const url = "http://localhost:8080/todos/delete";
     const options = {
       method: "DELETE",
@@ -112,7 +109,9 @@ export const createTodo = async (user_id, todoText, isCompleted) => {
     };
     const response = await fetch(url, options);
     const data = await response.json();
-  } catch (error) {}
+  } catch (error) {
+    console.log(`API ERROR: ${error}`)
+  }
 };
 
 // Get Todos
@@ -121,8 +120,6 @@ export const getTodos = async (user_id) => {
     const userData = {
       user_id,
     };
-    // Route GET /todos
-    // Sample Data - { _id: , todos: [{_id, todoText, isCompleted}] get status code from axios}
     const url = "http://localhost:8080/todos";
     const options = {
       method: "GET",
@@ -133,7 +130,9 @@ export const getTodos = async (user_id) => {
     };
     const response = await fetch(url, options);
     const data = await response.json();
-  } catch (error) {}
+  } catch (error) {
+    console.log(`API ERROR: ${error}`)
+  }
 };
 
 // Update Todo
@@ -143,8 +142,6 @@ export const updateTodo = async (_id, isCompleted) => {
       _id,
       isCompleted,
     };
-    // Route PUT /todos/update
-    // Sample Data - { _id, isCompleted, get status code from axios}
     const url = "http://localhost:8080/todos/update";
     const options = {
       method: "PUT",
@@ -155,7 +152,9 @@ export const updateTodo = async (_id, isCompleted) => {
     };
     const response = await fetch(url, options);
     const data = await response.json();
-  } catch (error) {}
+  } catch (error) {
+    console.log(`API ERROR: ${error}`)
+  }
 };
 
 // Delete Todo
@@ -165,8 +164,6 @@ export const deleteTodo = async (user_id, _id) => {
       user_id,
       _id,
     };
-    // Route DELETE /todos/delete
-    // Sample Data - { get status code from axios}
     const url = "http://localhost:8080/todos/delete";
     const options = {
       method: "DELETE",
@@ -177,5 +174,7 @@ export const deleteTodo = async (user_id, _id) => {
     };
     const response = await fetch(url, options);
     const data = await response.json();
-  } catch (error) {}
+  } catch (error) {
+    console.log(`API ERROR: ${error}`)
+  }
 };

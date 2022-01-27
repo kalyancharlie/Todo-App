@@ -1,7 +1,43 @@
 import "./styles.css";
+import { Link } from "react-router-dom";
 import SignUpImage from "../../assets/signup_image.svg";
+import { useState, useEffect } from "react";
+
+const EMAIL_PATTERN = /^\w+([-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/;
+
+const initialFormState = {
+  name: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 
 const SignupComponent = () => {
+  const [userDetails, setUserDetails] = useState(initialFormState);
+
+  useEffect(() => {}, []);
+
+  const validateRegisterFields = () =>
+    userDetails.name.trim() &&
+    EMAIL_PATTERN.test(userDetails.email.trim()) &&
+    userDetails.password &&
+    userDetails.password === userDetails.confirmPassword
+      ? true
+      : false;
+
+  const registerUser = (event) => {
+    event.preventDefault();
+
+    // Validate User Details
+    const validationStatus = validateRegisterFields();
+    if (!validationStatus) {
+      console.log("Failed");
+      return;
+    }
+    console.log("calling api");
+    // Register with API
+  };
+
   const runValidation = (event) => {
     event.preventDefault();
     const enteredPassword = document.getElementById("signupPasswordEl").value;
@@ -52,7 +88,7 @@ const SignupComponent = () => {
         className="login-image signup-img"
       />
       <div className="form-div signup-form">
-        <form onSubmit={runValidation}>
+        <form onSubmit={registerUser}>
           <h1 className="page-heading">Sign Up</h1>
           <div className="input-div">
             <svg
@@ -177,7 +213,7 @@ const SignupComponent = () => {
             Register
           </button>
           <p className="last-line">
-            Already a Member? <a href="/login">Login Here</a>
+            Already a Member? <Link to="/login">Login Here</Link>
           </p>
         </form>
       </div>

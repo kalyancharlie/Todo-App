@@ -24,8 +24,11 @@ const initialState = [
 
 const initialUserState = {
   name: '',
-  isInProgress: true,
-  user_id: ''
+  isInProgress: false,
+  user_id: '',
+  isAuthenticated: false,
+  isLoggedIn: false,
+  accessToken: ''
 }
 
 const TodoApp = () => {
