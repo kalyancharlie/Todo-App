@@ -1,15 +1,40 @@
 import "./styles.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import LoginImage from "../../assets/login_image.svg";
+import LoadingCircle from "../../assets/LoadingCircleAnimated.svg";
 import { Link } from "react-router-dom";
 import { MdEmail, MdLock, MdDangerous } from "react-icons/md";
 
 const EMAIL_PATTERN = /^\w+([-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/;
 
 const LoginComponent = () => {
+  const navigate = useNavigate();
+  const [isTouched, setIsTouched] = useState(false);
   const [user, setUser] = useState({ email: "", password: "" });
+  const [apiCallState, setApiCallState] = useState({
+    isInProgress: false,
+    isError: false,
+    message: "",
+  });
+  const [loginBtn, setLoginBtn] = useState({
+    value: "Log In",
+    isDisabled: false,
+  });
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    // Auth Check
+
+  }, [])
+
+  useEffect(() => {
+
+    if (validateLoginFields()) {
+      setLoginBtn({ ...loginBtn, isDisabled: false });
+    } else {
+      setLoginBtn({ ...loginBtn, isDisabled: true });
+    }
+  }, [user]);
 
   const validateLoginFields = () =>
     EMAIL_PATTERN.test(user.email.trim()) && user.password ? true : false;
@@ -43,15 +68,12 @@ const LoginComponent = () => {
               placeholder="Your Email"
               className="text-box"
               value={user.email}
-              onChange={(e) => {
-                console.log("val", e.target.value);
-                setUser((prev) => ({ ...prev, email: e.target.value }));
-              }}
+              onChange={(e) => setUser({ ...user, email: e.target.value })}
             />
             <div className="question-mark">
               <MdDangerous
                 className={
-                  !user.email ? "input-icon c-red" : "input-icon c-red hide"
+                  !EMAIL_PATTERN.test(user.email) ? "input-icon c-red" : "input-icon c-red hide"
                 }
               />
             </div>
@@ -67,18 +89,33 @@ const LoginComponent = () => {
               onChange={(e) => setUser({ ...user, password: e.target.value })}
             />
             <div className="question-mark">
-            <MdDangerous
+              <MdDangerous
                 className={
                   !user.password ? "input-icon c-red" : "input-icon c-red hide"
                 }
               />
             </div>
           </div>
-          <p className="c-red todo-app-container mb-10" id="loginPageErrMsg">
-            Show if Any Error
+          <p className="c-red todo-app-container mb-10">
+            {apiCallState.isError && apiCallState.message}
           </p>
-          <button type="submit" className="blue-button">
-            Log In
+          <button
+            type="submit"
+            className={
+              loginBtn.isDisabled
+                ? "blue-button loading-btn btn-disabled"
+                : "blue-button loading-btn"
+            }
+            disabled={loginBtn.isDisabled}
+          >
+            {loginBtn.value}
+            <img
+              src={LoadingCircle}
+              className={
+                apiCallState.isInProgress ? "loading-img show" : "loading-img"
+              }
+              alt="Loading Circle"
+            ></img>
           </button>
           <p className="last-line">
             No Account? <Link to="/signup">Signup Here</Link>

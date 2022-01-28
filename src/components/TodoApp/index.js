@@ -24,7 +24,6 @@ const initialState = [
 
 const initialUserState = {
   name: '',
-  isInProgress: false,
   user_id: '',
   isAuthenticated: false,
   isLoggedIn: false,
@@ -39,7 +38,7 @@ const TodoApp = () => {
       <Router>
         <Routes>
           {routes.map((route) => {
-            return <Route {...route} />;
+            return <Route {...route} replace />;
           })}
         </Routes>
       </Router>

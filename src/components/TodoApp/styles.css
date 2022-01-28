@@ -22,7 +22,7 @@
   background-color: var(--cream-color);
 }
 .hide {
-  display: none;
+  visibility: hidden;
 }
 .mb-10 {
   margin-bottom: 10px;

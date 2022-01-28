@@ -12,8 +12,8 @@ const TodoApp = () => {
   const {user, setUser} = todoContext
 
   useEffect(() => {
-    
-  })
+    // Check Auth
+  }, [])
 
   return (
     <div className="flex-all-center bg-cream w-100 h-100 outer-box">
