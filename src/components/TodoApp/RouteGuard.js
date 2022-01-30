@@ -33,11 +33,15 @@ const RouteGuard = ({ children }) => {
       });
   }, []);
 
-  return isInProgress ? (
-    <h2 className="todo-text">Logging In . . .</h2>
-  ) : (
-    children
-  );
+  return isInProgress ? <Loading /> : children;
 };
 
 export default RouteGuard;
+
+const Loading = () => {
+  return (
+    <>
+      <h1>Please wait.....</h1>
+    </>
+  );
+};
