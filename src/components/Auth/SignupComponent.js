@@ -1,11 +1,12 @@
 import "./styles.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import SignUpImage from "../../assets/signup_image.svg";
-import LoadingCircle from '../../assets/LoadingCircleAnimated.svg'
+import LoadingCircle from "../../assets/LoadingCircleAnimated.svg";
 import { useState, useEffect } from "react";
 import { MdPerson, MdEmail, MdDangerous, MdLock } from "react-icons/md";
-
-const EMAIL_PATTERN = /^\w+([-]?\w+)*@\w+([-]?\w+)*(\.\w{2,3})+$/;
+import { EMAIL_PATTERN } from "../../constants/constants";
+import { registerUser } from "../../api/Api";
+import { TODO_LOGIN } from "../../constants/constants";
 
 const initialFormState = {
   name: "",
@@ -15,31 +16,28 @@ const initialFormState = {
 };
 
 const SignupComponent = () => {
-  const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState(initialFormState);
-  const [apiCallState, setApiCallState] = useState({isInProgress: false, isError: false, message: ''})
-  const [registerBtn, setRegisterBtn] = useState({value: 'Register', isDisabled: false})
-
-  // Register Button State Update
-  useEffect(() => {
-    // setTimeout(() => setRegisterBtn({...registerBtn, value: 'loading', isDisabled: true}), 2000)
-    if (validateRegisterFields()) {
-      setRegisterBtn({...registerBtn, isDisabled: false})
-    } else {
-      setRegisterBtn({...registerBtn, isDisabled: true})
-
-    }
-  }, [userDetails]);
+  const [apiCallState, setApiCallState] = useState({
+    isInProgress: false,
+    isError: false,
+    message: "",
+  });
+  const [registerBtn, setRegisterBtn] = useState({
+    value: "Register",
+    isDisabled: false,
+  });
 
   // Confirm Password Check
-  const confirmPasswordCheck = (e) => {
-    if (userDetails.password !== e.target.value) {
-      setApiCallState({...apiCallState, isError: true, message: 'Password not matching'})
-    } else {
-      setApiCallState({...apiCallState, isError: false, message: ''})
+  const confirmPasswordCheck = async (e) => {
+    if (userDetails.password !== userDetails.confirmPassword) {
+      return setApiCallState({
+        ...apiCallState,
+        isError: true,
+        message: "Password not matching",
+      });
     }
-    setUserDetails({...userDetails, confirmPassword: e.target.value})
-  }
+    setApiCallState({ ...apiCallState, isError: false, message: "" });
+  };
 
   // Form Validator
   const validateRegisterFields = () =>
@@ -51,18 +49,53 @@ const SignupComponent = () => {
       : false;
 
   // Register User
-  const registerUser = (event) => {
-    event.preventDefault();
-
-    // Validate User Details
-    const validationStatus = validateRegisterFields();
-    if (!validationStatus) {
-      console.log("Failed");
-      return;
+  const verifyAndRegisterUser = async (event) => {
+    try {
+      event.preventDefault();
+      // Validate User Details
+      const validationStatus = validateRegisterFields();
+      if (!validationStatus) return
+      setRegisterBtn({
+        ...registerBtn,
+        value: "Please wait",
+        isDisabled: true,
+      });
+      setApiCallState({
+        ...apiCallState,
+        isInProgress: true,
+        isError: false,
+        message: "",
+      });
+      // Register with API
+      const { name, email, password } = userDetails;
+      const { message } = await registerUser(name, email, password);
+      setApiCallState({
+        ...apiCallState,
+        isInProgress: false,
+        isError: true,
+        message,
+      });
+    } catch (error) {
+      setApiCallState({
+        ...apiCallState,
+        isInProgress: false,
+        isError: true,
+        message: error.message,
+      });
+    } finally {
+      setRegisterBtn({ ...registerBtn, value: "Register", isDisabled: false });
     }
-    console.log("calling api");
-    // Register with API
   };
+
+  // Register Button State Update
+  useEffect(() => {
+    confirmPasswordCheck();
+    if (validateRegisterFields()) {
+      setRegisterBtn({ ...registerBtn, isDisabled: false });
+    } else {
+      setRegisterBtn({ ...registerBtn, isDisabled: true });
+    }
+  }, [userDetails]);
 
   return (
     <div className="flex-all-center align-items-center w-100 h-100 bg-cream">
@@ -72,7 +105,7 @@ const SignupComponent = () => {
         className="login-image signup-img"
       />
       <div className="form-div signup-form">
-        <form onSubmit={registerUser}>
+        <form onSubmit={verifyAndRegisterUser}>
           <h1 className="page-heading">Sign Up</h1>
           <div className="input-div">
             <MdPerson className="input-icon" />
@@ -81,7 +114,9 @@ const SignupComponent = () => {
               placeholder="Your Name"
               className="text-box"
               value={userDetails.name}
-              onChange={(e) => setUserDetails({...userDetails, name: e.target.value})}
+              onChange={(e) =>
+                setUserDetails({ ...userDetails, name: e.target.value })
+              }
             />
             <div className="question-mark">
               <MdDangerous
@@ -100,12 +135,14 @@ const SignupComponent = () => {
               placeholder="Your Email"
               className="text-box"
               value={userDetails.email}
-              onChange={(e) => setUserDetails({...userDetails, email: e.target.value})}
+              onChange={(e) =>
+                setUserDetails({ ...userDetails, email: e.target.value })
+              }
             />
             <div className="question-mark">
               <MdDangerous
                 className={
-                  !userDetails.email
+                  !EMAIL_PATTERN.test(userDetails.email.trim())
                     ? "input-icon c-red"
                     : "input-icon c-red hide"
                 }
@@ -119,7 +156,9 @@ const SignupComponent = () => {
               placeholder="Password"
               className="text-box"
               value={userDetails.password}
-              onChange={(e) => setUserDetails({...userDetails, password: e.target.value})}
+              onChange={(e) =>
+                setUserDetails({ ...userDetails, password: e.target.value })
+              }
             />
             <div className="question-mark">
               <MdDangerous
@@ -138,7 +177,12 @@ const SignupComponent = () => {
               placeholder="Repeat your password"
               className="text-box"
               value={userDetails.confirmPassword}
-              onChange={(e) => confirmPasswordCheck(e)}
+              onChange={(e) =>
+                setUserDetails({
+                  ...userDetails,
+                  confirmPassword: e.target.value,
+                })
+              }
             />
             <div className="question-mark">
               <MdDangerous
@@ -153,11 +197,26 @@ const SignupComponent = () => {
           <p className="c-red todo-app-container mb-10">
             {apiCallState.isError && apiCallState.message}
           </p>
-          <button type="submit" className={registerBtn.isDisabled ? 'blue-button loading-btn btn-disabled' : 'blue-button loading-btn'} disabled={registerBtn.isDisabled}>
-            {registerBtn.value} <img src={LoadingCircle} className={apiCallState.isInProgress ? 'loading-img show' : "loading-img"} alt="Loading Circle"></img>
+          <button
+            type="submit"
+            className={
+              registerBtn.isDisabled
+                ? "blue-button loading-btn btn-disabled"
+                : "blue-button loading-btn"
+            }
+            disabled={registerBtn.isDisabled}
+          >
+            {registerBtn.value}{" "}
+            <img
+              src={LoadingCircle}
+              className={
+                apiCallState.isInProgress ? "loading-img show" : "loading-img"
+              }
+              alt="Loading Circle"
+            ></img>
           </button>
           <p className="last-line">
-            Already a Member? <Link to="/login">Login Here</Link>
+            Already a Member? <Link to={TODO_LOGIN}>Login Here</Link>
           </p>
         </form>
       </div>

@@ -1,6 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import routes from "./routes";
+import useLocalStorage from '../../hooks/useLocalStorage'
+import {LOCAL_STR_USER, LOCAL_STR_TODOS} from '../../constants/constants'
+import RouteGuard from "./RouteGuard";
 
 // All components and routes will go here
 
@@ -24,6 +27,7 @@ const initialState = [
 
 const initialUserState = {
   name: '',
+  email: '',
   user_id: '',
   isAuthenticated: false,
   isLoggedIn: false,
@@ -31,14 +35,18 @@ const initialUserState = {
 }
 
 const TodoApp = () => {
-  const [todosList, setTodosList] = useState(initialState);
-  const [user, setUser] = useState(initialUserState)
+  const [todosList, setTodosList] = useLocalStorage(LOCAL_STR_TODOS, initialState);
+  const [user, setUser] = useLocalStorage(LOCAL_STR_USER, initialUserState)
   return (
     <TodoContext.Provider value={{ todosList, setTodosList, user, setUser }}>
       <Router>
         <Routes>
-          {routes.map((route) => {
-            return <Route {...route} replace />;
+          {routes.map((route, ind) => {
+            const {isProtected, element} = route
+            if (isProtected) {
+              return <Route {...route} element={<RouteGuard>{element}</RouteGuard>} key={ind} />
+            }
+            return <Route {...route} key={ind} />;
           })}
         </Routes>
       </Router>

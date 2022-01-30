@@ -1,93 +1,96 @@
-import axios from "axios";
+import { todoApi } from "../utils/AuthUtil";
 import bcryptjs from "bcryptjs";
+import {
+  API_LOGIN_USER,
+  API_REGISTER_USER,
+  API_LOGOUT_USER,
+  API_REFRESH_TOKEN,
+  API_VERIFY_TOKEN,
+  API_CREATE_TODO,
+  API_GET_TODOS,
+  API_UPDATE_TODO,
+  API_DELETE_TODO,
+} from "../constants/constants";
 
 // Authenticate User for Login
 export const authenticateUser = async (email, password) => {
   try {
-    const userData = {
-      email,
-      password,
-    };
-    const url = "http://localhost:8080/users/login";
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    };
-    const response = await fetch(url, options);
-    const data = await response.json();
-    //data can be used
+    const response = await todoApi.post(API_LOGIN_USER, {email, password}).catch(error => {
+      console.log('inside auth catch')
+      console.log(error)
+      throw error
+    })
+    console.log(response)
+    return response?.data
   } catch (error) {
-    console.log(`API ERROR: ${error}`)
+    console.log(`API ERROR:`);
+    console.log(error?.response?.data)
+    return error?.response?.data
   }
 };
+
+// Verify User Token
+export const verifyToken = async () => {
+  try {
+    const response = await todoApi.post(API_VERIFY_TOKEN, {}).catch(error => {
+      throw error
+    })
+    return response?.data
+  } catch (error) {
+    console.log(`API ERROR:`);
+    console.log(error?.response?.data)
+    return error?.response?.data
+  }
+}
 
 // Register User
 export const registerUser = async (name, email, password) => {
   try {
-    const hashedPassword = await bcryptjs.hash(password, 10);
-    const userData = {
-      name,
-      email,
-      password: hashedPassword,
-    };
-    const url = "http://localhost:8080/users/register";
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    };
-    const response = await fetch(url, options);
-    const data = await response.json();
+    const response = await todoApi.post(API_REGISTER_USER, {name, email, password}).catch(error => {
+      console.log('inside Register catch')
+      console.log(error)
+      throw error
+    })
+    console.log(response)
+    return response?.data
   } catch (error) {
-    console.log(`API ERROR: ${error}`)
+    console.log(`API ERROR:`);
+    console.log(error?.response?.data)
+    return error?.response?.data
   }
 };
 
 // Renew Token
-export const renewToken = async (refreshToken) => {
+export const renewToken = async () => {
   try {
-    const hashedPassword = await bcryptjs.hash(password, 10);
-    const userData = {
-      refreshToken,
-    };
-    const url = "http://localhost:8080/users/refresh-token";
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    };
-    const response = await fetch(url, options);
-    const data = await response.json();
+    const response = await todoApi.post(API_REFRESH_TOKEN, {}).catch(error => {
+      console.log('inside RENEW TOKEN catch')
+      console.log(error)
+      throw error
+    })
+    console.log(response)
+    return response?.data
   } catch (error) {
-    console.log(`API ERROR: ${error}`)
+    console.log(`API RENEW-TOKEN ERROR:`);
+    console.log(error?.response?.data)
+    return error?.response?.data
   }
 };
 
 // Logout User
-export const logoutUser = async (refreshToken) => {
+export const logoutUser = async () => {
   try {
-    const userData = {
-      refreshToken,
-    };
-    const url = "http://localhost:8080/users/logout";
-    const options = {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    };
-    const response = await fetch(url, options);
-    const data = await response.json();
+    const response = await todoApi.delete(API_LOGOUT_USER, {}).catch(error => {
+      console.log('inside LOGOUT catch')
+      console.log(error)
+      throw error
+    })
+    console.log(response)
+    return response?.data
   } catch (error) {
-    console.log(`API ERROR: ${error}`)
+    console.log(`API ERROR:`);
+    console.log(error?.response?.data)
+    return error?.response?.data
   }
 };
 
@@ -110,7 +113,7 @@ export const createTodo = async (user_id, todoText, isCompleted) => {
     const response = await fetch(url, options);
     const data = await response.json();
   } catch (error) {
-    console.log(`API ERROR: ${error}`)
+    console.log(`API ERROR: ${error}`);
   }
 };
 
@@ -131,7 +134,7 @@ export const getTodos = async (user_id) => {
     const response = await fetch(url, options);
     const data = await response.json();
   } catch (error) {
-    console.log(`API ERROR: ${error}`)
+    console.log(`API ERROR: ${error}`);
   }
 };
 
@@ -144,7 +147,7 @@ export const updateTodo = async (_id, isCompleted) => {
     };
     const url = "http://localhost:8080/todos/update";
     const options = {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
@@ -153,7 +156,7 @@ export const updateTodo = async (_id, isCompleted) => {
     const response = await fetch(url, options);
     const data = await response.json();
   } catch (error) {
-    console.log(`API ERROR: ${error}`)
+    console.log(`API ERROR: ${error}`);
   }
 };
 
@@ -175,6 +178,6 @@ export const deleteTodo = async (user_id, _id) => {
     const response = await fetch(url, options);
     const data = await response.json();
   } catch (error) {
-    console.log(`API ERROR: ${error}`)
+    console.log(`API ERROR: ${error}`);
   }
 };

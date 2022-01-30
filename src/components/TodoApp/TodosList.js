@@ -5,6 +5,7 @@ import { TodoContext } from "./index";
 const TodosList = () => {
   const todoContext = useContext(TodoContext);
   const { todosList, setTodosList } = todoContext;
+  console.log(todosList)
 
   const removeTodo = (id) => {
     const newTodos = todosList.filter((todo) => todo.id !== id);
