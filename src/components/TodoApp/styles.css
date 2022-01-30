@@ -32,7 +32,7 @@
 }
 .c-red {
   color: red;
-  padding-bottom: 3px; 
+  padding-bottom: 3px;
 }
 .min-height-100 {
   min-height: 100vh;
@@ -151,8 +151,53 @@
 .add-todo-box {
   padding-bottom: 12px;
 }
+.page-not-found-image {
+  width: 80%;
+  max-width: 500px;
+  margin-bottom: 30px;
+}
+.f-24 {
+  font-size: 0.8rem;
+  color: rgba(0, 0, 0, 0.6);
+}
+.error-page-heading {
+  font-size: 24px;
+  font-weight: bolder;
+  font-family: "Bree serif";
+  text-align: center;
+  margin: 10px;
+}
+.all-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.t-center {
+  text-align: center;
+}
+.error-page-button {
+  margin-top: 20px;
+  padding: 8px;
+  font-size: 10px;
+  text-decoration: none;
+}
 
 @media screen and (min-width: 768px) {
+  .page-not-found-image {
+    margin-bottom: 50px;
+  }
+  .error-page-heading {
+    font-size: 35px;
+    margin: 10px;
+  }
+  .error-page-button {
+    font-size: 14px;
+    padding: 12px;
+  }
+  .f-24 {
+    font-size: 1.3rem;
+  }
   .navbar-name {
     font-size: 42px;
   }
@@ -179,5 +224,17 @@
   .add-todo-icon {
     width: 45px;
     height: 45px;
+  }
+}
+@media screen and (max-width: 576px) {
+  .error-page-heading {
+    font-size: 18px;
+    margin: 8px;
+  }
+  .error-page-button {
+    font-size: 10px;
+  }
+  .f-24 {
+    font-size: 0.6rem;
   }
 }
