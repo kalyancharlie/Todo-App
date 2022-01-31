@@ -176,11 +176,28 @@
 .t-center {
   text-align: center;
 }
+
+.link-reset {
+  text-decoration: none;
+}
+
 .error-page-button {
   margin-top: 20px;
   padding: 8px;
-  font-size: 10px;
-  text-decoration: none;
+  font-size: 0.8rem;
+}
+
+@media screen and (max-width: 576px) {
+  .error-page-heading {
+    font-size: 18px;
+    margin: 8px;
+  }
+  .error-page-button {
+    font-size: 0.7rem;
+  }
+  .f-24 {
+    font-size: 0.6rem;
+  }
 }
 
 @media screen and (min-width: 768px) {
@@ -188,11 +205,11 @@
     margin-bottom: 50px;
   }
   .error-page-heading {
-    font-size: 35px;
+    font-size: 30px;
     margin: 10px;
   }
   .error-page-button {
-    font-size: 14px;
+    font-size: 1rem;
     padding: 12px;
   }
   .f-24 {
@@ -226,15 +243,4 @@
     height: 45px;
   }
 }
-@media screen and (max-width: 576px) {
-  .error-page-heading {
-    font-size: 18px;
-    margin: 8px;
-  }
-  .error-page-button {
-    font-size: 10px;
-  }
-  .f-24 {
-    font-size: 0.6rem;
-  }
-}
+

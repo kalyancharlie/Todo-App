@@ -16,7 +16,7 @@ const PageNotFound = ({ props }) => {
         <p className="f-24">
           We can’t seem to find the page you’re looking for.
         </p>
-        <Link to="/dashboard">
+        <Link to="/dashboard" className="link-reset">
           <button className={"blue-button loading-btn error-page-button"}>
             Return to Dashboard
           </button>

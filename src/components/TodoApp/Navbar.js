@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 import { logoutUser } from '../../api/Api'
 import { logOutSession } from '../../utils/AuthUtil'
@@ -12,7 +12,7 @@ const Navbar = () => {
   console.log(user, 'user name')
   // LogOut Handler
   const logoutHandler = async () => {
-    const { status, message } = await logoutUser()
+    const { status } = await logoutUser()
     if (!status) {
       return alert("Logout Failed. Try again Later!")
     }
@@ -20,7 +20,7 @@ const Navbar = () => {
     if (logoutStatus) {
       return navigate(TODO_LOGIN, {replace: true, state: {message: TODO_SESSION_LOGOUT}})
     }
-    alert("Local session not cleared")
+    alert("Failed. Try again Later!")
   }
 
   return (

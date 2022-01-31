@@ -69,6 +69,7 @@ export const verifySession = async (
         });
         return {status: true, message: TODO_SESSION_AUTH_SUCCESS}
       }
+      return {status, message: TODO_SESSION_EXPIRED}
     }
     // Token Not Expired - Validate Token
     const { status, message } = await verifyToken();
@@ -77,6 +78,22 @@ export const verifySession = async (
       setUser({ ...user, isAuthenticated: true, isLoggedIn: true });
       return {status: true, message: TODO_SESSION_AUTH_SUCCESS}
     } else {
+      // Check using Refresh Token
+      const renewStatus = await renewToken();
+      console.log('RENEW STATUS NEW')
+      console.log(renewStatus)
+      if (renewStatus) {
+        const { status, accessToken } = renewStatus
+        if (status) {
+          setUser({
+            ...user,
+            isAuthenticated: true,
+            isLoggedIn: true,
+            accessToken,
+          });
+          return {status: true, message: TODO_SESSION_AUTH_SUCCESS}
+        }
+      }
       setUser({ ...user, isAuthenticated: false, isLoggedIn: false });
       return {status: false, message: TODO_SESSION_EXPIRED}
     }
