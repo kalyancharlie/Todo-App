@@ -63,7 +63,10 @@
 .w-100p {
   width: 100%;
 }
-
+.f-bree {
+  font-family: "Bree serif", "Roboto";
+  font-size: clamp(1rem, 5vw, 2rem);
+}
 .todo-app-container {
   width: 90%;
   max-width: 768px;

@@ -22,7 +22,7 @@ const RouteGuard = ({ children }) => {
     verifySession(user, setUser, isTokenExpired, renewToken, verifyToken)
       .then(({ status, message, accessToken }) => {
         if (status) {
-          console.log('===========================', accessToken)
+          console.log("===========================", accessToken);
           setIsInProgress(false);
         } else {
           return navigate(TODO_LOGIN, { state: { message } });
@@ -43,7 +43,7 @@ export default RouteGuard;
 const Loading = () => {
   return (
     <div className="all-center w-100 h-100">
-      <h1>Please wait...</h1>
+      <h1 className="f-bree">Please wait...</h1>
       <ThreeDots heigth="100" width="100" color="#15184d" ariaLabel="loading" />
     </div>
   );

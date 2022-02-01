@@ -3,12 +3,12 @@ import { MdOutlineDeleteForever } from "react-icons/md";
 import { TodoContext } from ".";
 import { updateTodo, deleteTodo } from "../../api/Api";
 
-const TodoItem = ({_id, todoText, isCompleted}) => {
+const TodoItem = ({ _id, todoText, isCompleted }) => {
   const { todosList, setTodosList } = useContext(TodoContext);
 
   // Update Todo
   const updateTodoCompletion = useCallback(async () => {
-    console.log("update method");
+    console.log("update method", _id);
     const updateTodoStatus = await updateTodo(_id, !isCompleted);
     if (!updateTodoStatus) {
       return alert("Failed to Update. Check Internet Connection!");
@@ -25,13 +25,13 @@ const TodoItem = ({_id, todoText, isCompleted}) => {
       return todoItem;
     });
     setTodosList(newTodos);
-    console.log('local updated')
+    console.log("local updated");
   }, [todosList]);
 
   // Delete Todo
   const updateTodoDeletion = useCallback(async () => {
     console.log("delete method", _id);
-    const updateTodoStatus = await deleteTodo(_id)
+    const updateTodoStatus = await deleteTodo(_id);
     if (!updateTodoStatus) {
       return alert("Failed to Update. Check Internet Connection!");
     }
@@ -42,9 +42,8 @@ const TodoItem = ({_id, todoText, isCompleted}) => {
     console.log("Db Updated");
     const newTodos = todosList.filter((todoItem) => todoItem._id !== _id);
     setTodosList(newTodos);
-    console.log('local updated')
+    console.log("local updated");
   }, [todosList]);
-
 
   return (
     <li className="flex-direction-row align-items-center li">
@@ -57,11 +56,7 @@ const TodoItem = ({_id, todoText, isCompleted}) => {
             onChange={updateTodoCompletion}
             checked={isCompleted}
           />
-          <p
-            className={
-              isCompleted ? "todo-text strike-through" : "todo-text"
-            }
-          >
+          <p className={isCompleted ? "todo-text strike-through" : "todo-text"}>
             {todoText}
           </p>
         </div>
