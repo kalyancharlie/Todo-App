@@ -95,89 +95,71 @@ export const logoutUser = async () => {
 };
 
 // Create Todo
-export const createTodo = async (user_id, todoText, isCompleted) => {
+export const createTodo = async (todoText, isCompleted) => {
   try {
-    const userData = {
-      user_id,
-      todoText,
-      isCompleted,
-    };
-    const url = "http://localhost:8080/todos/delete";
-    const options = {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    };
-    const response = await fetch(url, options);
-    const data = await response.json();
+    console.log('req fields', todoText, isCompleted)
+    const response = await todoApi.post(API_CREATE_TODO, {todoText, isCompleted}).catch(error => {
+      console.log('inside create todo catch')
+      console.log(error)
+      throw error
+    })
+    console.log(response)
+    return response?.data
   } catch (error) {
-    console.log(`API ERROR: ${error}`);
+    console.log(`API ERROR:`);
+    console.log(error?.response?.data)
+    return error?.response?.data
   }
 };
 
 // Get Todos
-export const getTodos = async (user_id) => {
+export const getTodos = async () => {
   try {
-    const userData = {
-      user_id,
-    };
-    const url = "http://localhost:8080/todos";
-    const options = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    };
-    const response = await fetch(url, options);
-    const data = await response.json();
+    const response = await todoApi.get(API_GET_TODOS, {}).catch(error => {
+      console.log('inside get all todo catch')
+      console.log(error)
+      throw error
+    })
+    console.log(response)
+    return response?.data
   } catch (error) {
-    console.log(`API ERROR: ${error}`);
+    console.log(`API ERROR:`);
+    console.log(error?.response?.data)
+    return error?.response?.data
   }
 };
 
 // Update Todo
 export const updateTodo = async (_id, isCompleted) => {
   try {
-    const userData = {
-      _id,
-      isCompleted,
-    };
-    const url = "http://localhost:8080/todos/update";
-    const options = {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    };
-    const response = await fetch(url, options);
-    const data = await response.json();
+    const response = await todoApi.patch(API_UPDATE_TODO, {_id, isCompleted}).catch(error => {
+      console.log('inside update todo catch')
+      console.log(error)
+      throw error
+    })
+    console.log(response)
+    return response?.data
   } catch (error) {
-    console.log(`API ERROR: ${error}`);
+    console.log(`API ERROR:`);
+    console.log(error?.response?.data)
+    return error?.response?.data
   }
 };
 
 // Delete Todo
-export const deleteTodo = async (user_id, _id) => {
+export const deleteTodo = async (_id) => {
   try {
-    const userData = {
-      user_id,
-      _id,
-    };
-    const url = "http://localhost:8080/todos/delete";
-    const options = {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userData),
-    };
-    const response = await fetch(url, options);
-    const data = await response.json();
+    console.log('api todo_id: ', _id)
+    const response = await todoApi.delete(API_DELETE_TODO, {data: {_id}}).catch(error => {
+      console.log('inside DELETE todo catch')
+      console.log(error)
+      throw error
+    })
+    console.log(response)
+    return response?.data
   } catch (error) {
-    console.log(`API ERROR: ${error}`);
+    console.log(`API ERROR:`);
+    console.log(error?.response?.data)
+    return error?.response?.data
   }
 };

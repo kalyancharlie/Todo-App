@@ -3,7 +3,7 @@ import { TodoContext } from "./index";
 import { useNavigate, useLocation } from "react-router-dom";
 import { isTokenExpired, verifySession } from "../../utils/AuthUtil";
 import { renewToken, verifyToken } from "../../api/Api";
-import { TODO_LOGIN, TODO_SESSION_EXPIRED } from "../../constants/constants";
+import { TODO_LOGIN, TODO_SESSION_EXPIRED, TODO_SESSION_AUTH_SUCCESS } from "../../constants/constants";
 
 const RouteGuard = ({ children }) => {
   const navigate = useNavigate();
@@ -19,8 +19,9 @@ const RouteGuard = ({ children }) => {
     }
     // Verify the Session
     verifySession(user, setUser, isTokenExpired, renewToken, verifyToken)
-      .then(({ status, message }) => {
+      .then(({ status, message, accessToken }) => {
         if (status) {
+          console.log('===========================', accessToken)
           setIsInProgress(false);
         } else {
           return navigate(TODO_LOGIN, { state: { message } });

@@ -1,51 +1,68 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState, useMemo, useCallback } from "react";
 import TodoItem from "./TodoItem";
 import { TodoContext } from "./index";
+import { getTodos, updateTodo } from '../../api/Api'
 
-const TodosList = () => {
-  const todoContext = useContext(TodoContext);
-  const { todosList, setTodosList } = todoContext;
-  console.log(todosList)
+const TodosList = React.memo(() => {
+  const [isLoading, setIsLoading] = useState(true)
+  const { todosList, setTodosList, user } = useContext(TodoContext);
 
-  const removeTodo = (id) => {
-    const newTodos = todosList.filter((todo) => todo.id !== id);
-    setTodosList(newTodos);
-  };
-
-  const updateTodoItem = (id) => {
-    const newTodos = todosList.map((todo) => {
-      if (todo.id === id) {
-        todo.isCompleted = !todo.isCompleted;
+  const getAllTodos = useCallback(async () => {
+    try {
+      const getTodosStatus = await getTodos()
+      if (!getTodosStatus) {
+        console.log('Failed to get Todos. Check Internet Connection')
+        setTodosList([])
+        setIsLoading(false)
       }
-      return todo;
-    });
-    setTodosList(newTodos);
-  };
+      const { todos } = getTodosStatus
+      setTodosList(todos)
+    } catch (error) {
+      console.log("toodlis comp error")
+      console.log(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (user?.accessToken) {
+      getAllTodos()
+    }
+  }, [user])
+
+  useEffect(() => {
+    console.log("TodoList udpated")
+  }, [todosList])
 
   const renderEmptyBox = () => {
     return (
       <div className="no-tasks-box">
-        <p>Yay! you Left with No WorkLoad</p>
+        <p>Yay! You are left with No WorkLoad</p>
       </div>
     );
   };
 
-  return (
+  return isLoading ? <LoadingTodosList /> : (
     <div className="flex-direction-column ">
       <p className="section-heading">TODAY'S TASKS</p>
       <ul className="todo-app-container flex-direction-column ul">
-        {todosList.length === 0 && renderEmptyBox()}
-        {todosList.map((todo) => (
+        {todosList?.length === 0 && renderEmptyBox()}
+        {todosList?.map((todo, index) => (
           <TodoItem
             {...todo}
-            removeTodo={removeTodo}
-            key={todo.id}
-            updateTodoItem={updateTodoItem}
+            key={index}
           />
         ))}
       </ul>
     </div>
   );
-};
+});
+
+const LoadingTodosList = () => {
+  return <>
+    <h3>Loading Todos . . .</h3>
+  </>
+}
 
 export default TodosList;

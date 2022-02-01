@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import routes from "./routes";
 import useLocalStorage from '../../hooks/useLocalStorage'
@@ -35,7 +35,7 @@ const initialUserState = {
 }
 
 const TodoApp = () => {
-  const [todosList, setTodosList] = useLocalStorage(LOCAL_STR_TODOS, initialState);
+  const [todosList, setTodosList] = useState(initialState);
   const [user, setUser] = useLocalStorage(LOCAL_STR_USER, initialUserState)
   return (
     <TodoContext.Provider value={{ todosList, setTodosList, user, setUser }}>

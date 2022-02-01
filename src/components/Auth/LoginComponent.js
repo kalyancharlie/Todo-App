@@ -15,7 +15,7 @@ const LoginComponent = () => {
   const navigate = useNavigate();
   const { state } = useLocation()
   const {user, setUser} = useContext(TodoContext)
-  const [userDetails, setUserDetails] = useState({ email: "a@a.com", password: "a" });
+  const [userDetails, setUserDetails] = useState({ email: "k@k.com", password: "k" });
   const [apiCallState, setApiCallState] = useState({
     isInProgress: false,
     isError: false,
@@ -27,10 +27,11 @@ const LoginComponent = () => {
   });
 
   useEffect(() => {
+    // Logout Message
     if (state?.message === TODO_SESSION_LOGOUT) {
-      setApiCallState({...apiCallState, isError: true, message: TODO_SESSION_LOGOUT})
-      return
+      return setApiCallState({...apiCallState, isError: true, message: TODO_SESSION_LOGOUT})
     }
+    // Other Message from Protected Route if any
     if (state?.message) {
       setApiCallState({...apiCallState, isError: true, message: state.message})
     }
@@ -40,8 +41,7 @@ const LoginComponent = () => {
       if (status) {
         return navigate(TODO_DASHBOARD, {canLogin: true})
       }
-      const isStateAvailable = (user.name && user.email)
-      setApiCallState({...apiCallState, isAuthenticated: false, isLoggedIn: false, isError: isStateAvailable, message})
+      setApiCallState({...apiCallState, isAuthenticated: false, isLoggedIn: false, isError: true, message})
     }).catch(error => {
       console.log('promise error')
       console.log(error)

@@ -3,53 +3,67 @@
   --section-heading: #90919e;
   --border-color: #096f92;
 }
+
 .flex-direction-column {
   display: flex;
   flex-direction: column;
 }
+
 .ul {
   list-style-type: none;
   overflow-y: auto;
   height: 60vh;
 }
+
 .outer-box {
   overflow-x: hidden;
 }
+
 .delete-icon {
   cursor: pointer;
   width: 20px;
   height: 20px;
 }
+
 .bg-cream {
   background-color: var(--cream-color);
 }
+
 .hide {
   visibility: hidden;
 }
+
 .mb-10 {
   margin-bottom: 10px;
   font-size: 14px;
 }
+
 .c-red {
   color: red;
   padding-bottom: 3px;
 }
+
 .min-height-100 {
   min-height: 100vh;
 }
+
 .flex-direction-row {
   display: flex;
   justify-content: space-between;
 }
+
 .justify-content-end {
   justify-content: flex-end;
 }
+
 .justify-content-between {
   justify-content: space-between;
 }
+
 .w-100p {
   width: 100%;
 }
+
 .todo-app-container {
   width: 90%;
   max-width: 768px;
@@ -57,36 +71,44 @@
   margin-right: 10px;
   margin-left: 10px;
 }
+
 .align-items-center {
   align-items: center;
 }
+
 .navbar {
   margin-top: 18px;
   margin-bottom: 18px;
   color: var(--near-black-color);
 }
+
 .logout-icon {
   width: 24px;
   height: 24px;
   cursor: pointer;
 }
+
 .navbar-name {
   font-size: 35px;
 }
+
 .path {
   stroke: var(--near-black-color);
   stroke-width: 1px;
 }
+
 .path-send {
   stroke: var(--cream-color);
   stroke-width: 1px;
 }
+
 .section-heading {
   color: var(--section-heading);
   margin-top: 8px;
   margin-bottom: 8px;
   margin-left: 10px;
 }
+
 .li {
   background-color: #e6f6ff;
   border-radius: 10px;
@@ -94,12 +116,16 @@
   padding: 14px;
   border-left: 4px solid var(--border-color);
 }
+
 .todo-text {
   margin-left: 26px;
 }
+
 .strike-through {
   text-decoration: line-through;
+  color: #6e6a6a;
 }
+
 .add-todo-icon {
   width: 38px;
   height: 38px;
@@ -112,22 +138,27 @@
 .input-ele-div {
   border-radius: 20px;
   border: 0.5px solid var(--section-heading);
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 15px;
+  padding-right: 15px;
   margin-right: 10px;
 }
+
 .send-div {
   background-color: var(--near-black-color);
   color: var(--cream-color);
-  width: 45px;
-  height: 45px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+.svg {
+  font-size: 0.8em;
 }
 
 .add-todo-input-element {
@@ -140,6 +171,7 @@
   margin-right: 10px;
   background-color: var(--cream-color);
 }
+
 .no-tasks-box {
   background-color: var(--cream-color);
   display: flex;
@@ -148,18 +180,22 @@
   align-items: center;
   height: 100%;
 }
+
 .add-todo-box {
   padding-bottom: 12px;
 }
+
 .page-not-found-image {
   width: 80%;
   max-width: 500px;
   margin-bottom: 30px;
 }
+
 .f-24 {
   font-size: 0.8rem;
   color: rgba(0, 0, 0, 0.6);
 }
+
 .error-page-heading {
   font-size: 24px;
   font-weight: bolder;
@@ -167,12 +203,14 @@
   text-align: center;
   margin: 10px;
 }
+
 .all-center {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
+
 .t-center {
   text-align: center;
 }
@@ -243,4 +281,3 @@
     height: 45px;
   }
 }
-

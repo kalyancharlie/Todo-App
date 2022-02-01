@@ -68,13 +68,14 @@ const SignupComponent = () => {
       });
       // Register with API
       const { name, email, password } = userDetails;
-      const { message } = await registerUser(name, email, password);
+      const { status, message } = await registerUser(name, email, password);
       setApiCallState({
         ...apiCallState,
         isInProgress: false,
         isError: true,
         message,
       });
+      
     } catch (error) {
       setApiCallState({
         ...apiCallState,
