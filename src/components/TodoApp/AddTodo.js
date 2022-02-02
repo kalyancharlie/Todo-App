@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { TodoContext } from "./index";
-import { v4 as uuidv4 } from "uuid";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { IoSend } from "react-icons/io5";
 import { ImCross } from "react-icons/im";
