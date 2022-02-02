@@ -93,6 +93,7 @@
 .blue-button {
   background-color: var(--blue-color);
   color: white;
+  letter-spacing: 1px;
   font-family: "Bree serif";
   border-radius: 8px;
   padding: 14px 25px 14px 25px;
@@ -100,6 +101,19 @@
   font-size: 14px;
   cursor: pointer;
   margin-bottom: 20px;
+}
+.blue-outline-button {
+  background-color: white;
+  color: var(--blue-color);
+  font-family: "Bree serif";
+  letter-spacing: 2px;
+  border-radius: 8px;
+  padding: 14px 25px 14px 25px;
+  border: 0px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 20px;
+  border: 0.5px solid var(--blue-color);
 }
 
 .btn-disabled {
@@ -124,7 +138,6 @@
 .show {
   display: block;
 }
-
 
 .last-line {
   font-family: "Bree serif";

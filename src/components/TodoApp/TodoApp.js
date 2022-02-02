@@ -4,7 +4,6 @@ import TodosList from "./TodosList";
 import AddTodo from "./AddTodo";
 
 const TodoApp = () => {
-
   return (
     <div className="flex-all-center bg-cream w-100 h-100 outer-box">
       <div className="flex-direction-column justify-content-between todo-app-container">

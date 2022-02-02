@@ -269,6 +269,12 @@
   z-index: 2;
 }
 
+.MuiPaper-root.MuiPaper-elevation {
+  padding-right: 10px;
+  padding-top: 15px;
+  font-family: "Bree Serif";
+}
+
 @keyframes skeleton-loading {
   to {
     background-position: 120% 0, 0 0;
@@ -331,4 +337,3 @@
     height: 45px;
   }
 }
-
