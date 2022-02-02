@@ -17,7 +17,7 @@ export const authenticateUser = async (email, password) => {
   try {
     const response = await todoApi.post(API_LOGIN_USER, {email, password}).catch(error => {
       console.log('inside auth catch')
-      console.log(error)
+      console.log({...error})
       throw error
     })
     console.log(response)
@@ -65,7 +65,7 @@ export const renewToken = async () => {
   try {
     const response = await todoApi.post(API_REFRESH_TOKEN, {}).catch(error => {
       console.log('inside RENEW TOKEN catch')
-      console.log(error)
+      console.log(...error)
       throw error
     })
     console.log(response)

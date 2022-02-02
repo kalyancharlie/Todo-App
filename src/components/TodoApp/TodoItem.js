@@ -1,52 +1,69 @@
-import { useState, useEffect, useContext, useCallback, useMemo } from "react";
+import {  useContext, useCallback, useRef } from "react";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { TodoContext } from ".";
 import { updateTodo, deleteTodo } from "../../api/Api";
 
 const TodoItem = ({ _id, todoText, isCompleted }) => {
   const { todosList, setTodosList } = useContext(TodoContext);
+  const todoLiItem = useRef()
 
   // Update Todo
   const updateTodoCompletion = useCallback(async () => {
-    console.log("update method", _id);
-    const updateTodoStatus = await updateTodo(_id, !isCompleted);
-    if (!updateTodoStatus) {
-      return alert("Failed to Update. Check Internet Connection!");
-    }
-    const { status, message } = updateTodoStatus;
-    if (!status) {
-      return alert("Failed to Update. Error:", message);
-    }
-    console.log("Db Updated");
-    const newTodos = todosList.map((todoItem) => {
-      if (todoItem._id === _id) {
-        return { ...todoItem, isCompleted: !todoItem.isCompleted };
+    try {
+
+      todoLiItem?.current?.classList?.add?.('skeleton')
+      console.log("update method", _id);
+      const updateTodoStatus = await updateTodo(_id, !isCompleted);
+      if (!updateTodoStatus) {
+        return alert("Failed to Update. Check Internet Connection!");
       }
-      return todoItem;
-    });
-    setTodosList(newTodos);
-    console.log("local updated");
+      const { status, message } = updateTodoStatus;
+      if (!status) {
+        return alert("Failed to Update. Error:", message);
+      }
+      console.log("Db Updated");
+      const newTodos = todosList.map((todoItem) => {
+        if (todoItem._id === _id) {
+          return { ...todoItem, isCompleted: !todoItem.isCompleted };
+        }
+        return todoItem;
+      });
+      setTodosList(newTodos);
+      console.log("local updated");
+    } catch (error) {
+      console.log('error in update todo completion', error)
+    } finally {
+      todoLiItem?.current?.classList?.remove?.('skeleton')
+    }
   }, [todosList]);
 
   // Delete Todo
   const updateTodoDeletion = useCallback(async () => {
-    console.log("delete method", _id);
-    const updateTodoStatus = await deleteTodo(_id);
-    if (!updateTodoStatus) {
-      return alert("Failed to Update. Check Internet Connection!");
+    try {
+      todoLiItem?.current?.classList?.add?.('skeleton')
+      console.log("delete method", _id);
+      const updateTodoStatus = await deleteTodo(_id);
+      if (!updateTodoStatus) {
+        return alert("Failed to Update. Check Internet Connection!");
+      }
+      const { status, message } = updateTodoStatus;
+      if (!status) {
+        return alert("Failed to Update. Error:", message);
+      }
+      console.log("Db Updated");
+      const newTodos = todosList.filter((todoItem) => todoItem._id !== _id);
+      setTodosList(newTodos);
+      console.log("local updated");
+    } catch (error) {
+      console.log('error in update todo deletion', error)
+    } finally {
+      todoLiItem?.current?.classList?.remove?.('skeleton')
     }
-    const { status, message } = updateTodoStatus;
-    if (!status) {
-      return alert("Failed to Update. Error:", message);
-    }
-    console.log("Db Updated");
-    const newTodos = todosList.filter((todoItem) => todoItem._id !== _id);
-    setTodosList(newTodos);
-    console.log("local updated");
   }, [todosList]);
 
   return (
-    <li className="flex-direction-row align-items-center li">
+    <div>
+    <li className="flex-direction-row align-items-center li skeleton-item" ref={todoLiItem}>
       <label htmlFor={_id}>
         <div className="flex-direction-row align-items-center ">
           <input
@@ -67,6 +84,7 @@ const TodoItem = ({ _id, todoText, isCompleted }) => {
         title="Delete Todo"
       />
     </li>
+    </div>
   );
 };
 

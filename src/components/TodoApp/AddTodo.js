@@ -12,6 +12,7 @@ const AddTodo = () => {
   const [isError, setIsError] = useState(false);
   const { setTodosList, todosList } = useContext(TodoContext);
   const addTodoInput = useRef()
+  const addTodoEle = useRef()
 
   useEffect(() => {
     setIsError(false);
@@ -29,31 +30,38 @@ const AddTodo = () => {
 
   // Handle Add Todo
   const handleAddTodo = async () => {
-    
-    // Validate Todo Name
-    if (!validateTaskName()) {
-      return setIsError(true);
+    try {
+      addTodoEle?.current?.classList?.add?.('skeleton')
+      // Validate Todo Name
+      if (!validateTaskName()) {
+        return setIsError(true);
+      }
+      // Add new todo to todosList - Local
+      const newTodo = {
+        _id: null,
+        todoText: taskName.trim(),
+        isCompleted: false,
+        createdAt: new Date(),
+      };
+      // Call Add Todo Api
+      const createTodoStatus = await createTodo(taskName, false);
+      if (!createTodoStatus) {
+        return alert("Failed to Create Todo. API Error");
+      }
+      const { status, id } = createTodoStatus;
+      if (!status) {
+        return alert("Server Error. Try again later!");
+      }
+      newTodo._id = id;
+      newTodo.todoText = taskName
+      setTaskName('')
+      setTodosList([...todosList, newTodo]);
+    } catch (error) {
+      console.log("Error in Handle Add Todo")
+      console.log(error)
+    } finally {
+      addTodoEle?.current?.classList?.remove?.('skeleton')
     }
-    // Add new todo to todosList - Local
-    const newTodo = {
-      id: null,
-      todoText: taskName.trim(),
-      isCompleted: false,
-      createdAt: new Date(),
-    };
-    // Call Add Todo Api
-    const createTodoStatus = await createTodo(taskName, false);
-    if (!createTodoStatus) {
-      return alert("Failed to Create Todo. API Error");
-    }
-    const { status, id } = createTodoStatus;
-    if (!status) {
-      return alert("Server Error. Try again later!");
-    }
-    newTodo.id = id;
-    newTodo.todoText = taskName
-    setTaskName('')
-    setTodosList([...todosList, newTodo]);
 
   };
 
@@ -80,7 +88,7 @@ const AddTodo = () => {
           Please Enter Task
         </p>
         <div className="flex-direction-row w-100p align-items-center justify-content-between">
-          <div className="flex-direction-row input-ele-div w-100p align-items-center">
+          <div className="flex-direction-row input-ele-div w-100p align-items-center skeleton-item" ref={addTodoEle}>
             <input
               type="text"
               placeholder="Enter the task"

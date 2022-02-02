@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LOCAL_STR_ACCESS_TOKEN, LOCAL_STR_USER, TODO_SESSION_AUTH_SUCCESS, TODO_SESSION_EXPIRED } from "../constants/constants";
+import { LOCAL_STR_USER, TODO_SESSION_AUTH_SUCCESS, TODO_SESSION_EXPIRED } from "../constants/constants";
 import { renewToken } from "../api/Api";
 
 // Read User from Local Storage
@@ -140,6 +140,7 @@ const retryAndUpdateAccessToken = async () => {
   }
 }
 
+let retryCount = 0
 let isRetryCompleted = false
 // Axios Interceptors
 const todoApi = axios.create({
@@ -153,6 +154,7 @@ todoApi.interceptors.request.use(
     // console.log("REQ INTERCEPTOR");
     try {
     //   console.log(config);
+      config.headers['Access-Control-Max-Age'] = 86400
       const {accessToken} = JSON.parse(localStorage.getItem(LOCAL_STR_USER));
       config.headers["x-api-key"] = accessToken ? accessToken : 'null'
       console.log('LOCAL STORAGE INTERCEPTED TOKEN', accessToken)
@@ -172,65 +174,45 @@ todoApi.interceptors.request.use(
 
 todoApi.interceptors.response.use(
   (config) => {
+    retryCount = 0
+    isRetryCompleted = false;
     console.log("RES INTERCEPTOR");
     console.log(config);
     return config;
   },
   async (error) => {
-    console.log('RETRY STATUS', isRetryCompleted)
-    //   console.log("RES ERROR:")
-    //   console.log("res status", error?.response?.status)
-    //   if (error?.response?.status === 403) {
-    //       // Fetch new Access Token and update in local storage and also update the state.
-    //       const resp = await null;
-    //       const {status, accessToken} = {status: true, accessToken: 'new token value'};
-    //       if (status) {
-    //           localStorage.setItem(LOCAL_STR_ACCESS_TOKEN, JSON.stringify(accessToken))
-    //           // Retry Request and return from here.
-    //       }
-    //   }
-    //   console.log(Object.getOwnPropertyNames(error))
-    //   console.log("stack", error.stack);
-    //   console.log(error.message);
-    //   console.log(error.config);
-    //   console.log(error.response);
-    //   console.log(error.request);
-    //   console.log(error.isAxiosError);
-    // console.log('STATUS CODE', error?.response?.status)
-    // console.log('erro meesage', error?.message)
-    // console.log('STATUS Message', error?.response?.message)
-    // console.log('axios error', error?.isAxiosError)
-    if (error?.response?.status === 404) {
-        console.log(404)
-        error.response.data = {status: false, message: 'Server Error. Please try again!'}
-    } else if (error?.response?.status === 403 && !isRetryCompleted) {
-      isRetryCompleted = true
-      console.log('ERROR CAUGHT', 403)
-      console.log('INSIDE RESPONSE - REQ RERY INTERCEPTOR')
-      await retryAndUpdateAccessToken()
-      return todoApi.request(error.config)
-      // isRetryCompleted = true
-      // const renewTokenStatus = await renewToken()
-      // if (renewTokenStatus) {
-      //   console.log('STATUS REFRESHED FOR TOKEN', renewTokenStatus.accessToken)
-      //   console.log(renewTokenStatus)
-      //   const {status, accessToken} = renewTokenStatus
-      //   if (status) {
-      //     const userTokenData = JSON.parse(localStorage.getItem(LOCAL_STR_USER))
-      //     if (userTokenData) {
-      //       userTokenData.accessToken = accessToken
-      //       localStorage.setItem(LOCAL_STR_USER, JSON.stringify(userTokenData))
-      //     }
-      //     console.log('retyring request')
-      //     // localStorage.setItem(LOCAL_STR_ACCESS_TOKEN, JSON.stringify(accessToken))
-      //     return todoApi.request(error.config)
-      //   }
-      // }
-    } else {
-      isRetryCompleted = false
+    try {
+      if (error?.response?.status === 404) {
+          console.log(404)
+          error.response.data = {status: false, message: 'Server Error. Please try again!'}
+      } else if (error?.response?.status === 403 && retryCount <= 2) {
+        retryCount += 1
+        isRetryCompleted = true
+        console.log('ERROR CAUGHT', 403)
+        console.log('INSIDE RESPONSE - REQ RERY INTERCEPTOR')
+        await retryAndUpdateAccessToken()
+        return todoApi.request(error.config)
+      } else if (error?.message === 'Network Error') {
+        const networkError = {data: {status: false, message: 'Failed to Connect. Check your Internet Connection'}}
+        console.log({...error})
+        console.log("inside network error")
+        error.response = networkError
+      } else if (error?.response?.status === 401) {
+        console.log('inside 401 error cattch')
+        retryCount = 40
+        isRetryCompleted = true
+        return Promise.reject(error)
+      }
+      else {
+        isRetryCompleted = false
+      }
+      return Promise.reject(error)
+    } catch(error) {
+      console.log("Res Interceptor Error")
+      console.log(error)
+      return Promise.reject(error)
     }
-     return Promise.reject(error)
-    }
+  }
 );
 
 export { todoApi }

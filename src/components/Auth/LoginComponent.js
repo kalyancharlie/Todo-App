@@ -15,7 +15,7 @@ const LoginComponent = () => {
   const navigate = useNavigate();
   const { state } = useLocation()
   const {user, setUser} = useContext(TodoContext)
-  const [userDetails, setUserDetails] = useState({ email: "k@k.com", password: "k" });
+  const [userDetails, setUserDetails] = useState({ email: "kalyan@k.com", password: "k" });
   const [apiCallState, setApiCallState] = useState({
     isInProgress: false,
     isError: false,
